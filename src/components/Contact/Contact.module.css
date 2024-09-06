@@ -1,0 +1,9 @@
+.text {
+  text-align: left;
+}
+.button {
+  background-color: #504df1;
+  border: 2px solid #504df1;
+  border-radius: 5px;
+  padding: 10px;
+}

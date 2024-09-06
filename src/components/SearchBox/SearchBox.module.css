@@ -1,0 +1,15 @@
+.text {
+}
+.input {
+  width: 333px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 5px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 25px;
+  align-items: flex-start;
+}
