@@ -1,0 +1,14 @@
+.list {
+  display: flex;
+  gap: 15px;
+}
+.item {
+  color: black;
+  border: solid 1px blue;
+  border-radius: 7px;
+  padding: 7px;
+}
+.active {
+  color: white;
+  background-color: blue;
+}

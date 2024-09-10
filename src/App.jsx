@@ -1,29 +1,37 @@
-import ContactForm from "./components/ContactForm/ContactForm";
-import ContactList from "./components/ContactList/ContactList";
-import SearchBox from "./components/SearchBox/SearchBox";
 import "./App.css";
-import { useEffect } from "react";
+import Layout from "./components/Layout/Layout";
+import { Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage/HomePage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import RegisterPage from "./pages/RegistrationPage/RegistrationPage";
+import ContactsPage from "./pages/ContactsPage/ContactsPage";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchContacts } from "./redux/contactsOps";
-
-import { selectLoading } from "./redux/contactsSlice";
-import Loader from "./components/Loader/Loader";
+import { selectAuthIsRefreshing } from "./redux/auth/selectors";
+import { useEffect } from "react";
+import { apiRefreshUser } from "./redux/auth/operations";
 
 function App() {
   const dispatch = useDispatch();
+  const isRefreshing = useSelector(selectAuthIsRefreshing);
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(apiRefreshUser);
   }, [dispatch]);
-  const isLoading = useSelector(selectLoading);
-
+  if (isRefreshing) return <p>User is refreshing, please wait</p>;
   return (
-    <div>
-      <h1 className="title">Phonebook</h1>
-      <ContactForm />
-      <SearchBox />
-      {isLoading && <Loader />}
-      <ContactList />
-    </div>
+    <>
+      <header>
+        <Layout />
+      </header>
+      <main>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/contacts" element={<ContactsPage />} />
+        </Routes>
+      </main>
+      <footer></footer>
+    </>
   );
 }
 
