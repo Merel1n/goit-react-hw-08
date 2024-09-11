@@ -1,0 +1,25 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+.label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.input {
+  padding: 16px;
+  border: solid 1px black;
+  border-radius: 5px;
+  width: 400px;
+}
+.button {
+  padding: 16px;
+  font-size: 18px;
+  border: solid 1px black;
+  border-radius: 5px;
+  background-color: rgb(25, 17, 246);
+  color: white;
+}
