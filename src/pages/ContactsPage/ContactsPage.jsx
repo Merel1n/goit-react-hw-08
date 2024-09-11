@@ -8,9 +8,13 @@ import { useEffect } from "react";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import css from "./ContactsPage.module.css";
 import { fetchContacts } from "../../redux/contacts/operations";
-import { selectLoading } from "../../redux/contacts/selections";
+import { selectCurrent, selectLoading } from "../../redux/contacts/selections";
+import EditContactForm from "../../components/EditContactForm/EditContactForm";
+
 const ContactsPage = () => {
+  const current = useSelector(selectCurrent);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
@@ -20,7 +24,7 @@ const ContactsPage = () => {
       <div>
         <h1 className={css.title}>Phonebook</h1>
 
-        <ContactForm />
+        {current ? <EditContactForm /> : <ContactForm />}
         <SearchBox />
         {isLoading && <Loader />}
         <ContactList />

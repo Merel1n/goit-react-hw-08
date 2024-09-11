@@ -9,13 +9,13 @@ import { toast } from "react-hot-toast";
 const ContactList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [contactToDelete, setContactToDelete] = useState(null);
+
   const dispatch = useDispatch();
   const handleDeleteClick = (contact) => {
-    console.log(contact);
-
     setContactToDelete(contact);
     setIsModalOpen(true);
   };
+
   const onDeleteContact = () => {
     dispatch(deleteContact(contactToDelete))
       .unwrap()

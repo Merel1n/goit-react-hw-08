@@ -12,6 +12,7 @@ const initialState = {
   items: [],
   loading: false,
   error: null,
+  current: null,
 };
 const handlePending = (state) => {
   state.loading = true;
@@ -24,6 +25,11 @@ const handleRejected = (state, action) => {
 const contactsSlice = createSlice({
   name: "contacts",
   initialState: initialState,
+  reducers: {
+    setCurrent: (state, action) => {
+      state.current = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchContacts.pending, handlePending)
@@ -49,9 +55,12 @@ const contactsSlice = createSlice({
       .addCase(updateContact.pending, handlePending)
       .addCase(updateContact.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = state.items.map((item) =>
-          item.id === action.payload.id ? action.payload : item
+        state.error = null;
+        const index = state.items.findIndex(
+          (item) => item.id === action.payload.id
         );
+        state.items.splice(index, 1, action.payload);
+        state.current = null;
       })
       .addCase(updateContact.rejected, handleRejected)
       .addCase(apiLogout.fulfilled, (state) => {
@@ -62,3 +71,4 @@ const contactsSlice = createSlice({
   },
 });
 export const contactsReducer = contactsSlice.reducer;
+export const { setCurrent } = contactsSlice.actions;
