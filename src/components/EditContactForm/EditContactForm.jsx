@@ -6,6 +6,7 @@ import { toast, Toaster } from "react-hot-toast";
 import { selectCurrent } from "../../redux/contacts/selections";
 import { setCurrent } from "../../redux/contacts/slice";
 import { updateContact } from "../../redux/contacts/operations";
+import { current } from "@reduxjs/toolkit";
 
 // const phoneRegExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
 // const ContactValidationSchema = Yup.object().shape({
@@ -20,21 +21,19 @@ import { updateContact } from "../../redux/contacts/operations";
 //     )
 //     .required("Required"),
 // });
-
+const initialValues = {
+  name: current.name,
+  number: current.number,
+};
 const EditContactForm = () => {
   const current = useSelector(selectCurrent);
   const dispatch = useDispatch();
-  console.log(current);
-  const handleSubmit = (event) => {
-    event.preventDefault();
 
-    const inputName = event.target.elements.userName.value.trim();
-    const inputTel = event.target.elements.userNumber.value.trim();
+  const handleSubmit = (values) => {
     dispatch(
       updateContact({
         id: current.id,
-        name: { inputName },
-        number: { inputTel },
+        ...values,
       })
     )
       .unwrap()
@@ -46,6 +45,7 @@ const EditContactForm = () => {
   return (
     <>
       <Formik
+        initialValues={initialValues}
         onSubmit={handleSubmit}
         // validationSchema={ContactValidationSchema}
       >
@@ -54,14 +54,14 @@ const EditContactForm = () => {
             Name
             <Field
               type="text"
-              name="userName"
+              name="name"
               className={css.input}
               placeholder="Name"
               defaultValue={current.name}
             />
             <ErrorMessage
               className={css.errorText}
-              name="userName"
+              name="name"
               component="span"
             />
           </label>
@@ -69,14 +69,14 @@ const EditContactForm = () => {
             Number
             <Field
               type="tel"
-              name="userNumber"
+              name="number"
               className={css.input}
               placeholder="XXX-XXX-XXXX"
               defaultValue={current.number}
             />
             <ErrorMessage
               className={css.errorText}
-              name="userNumber"
+              name="number"
               component="span"
             />
           </label>
