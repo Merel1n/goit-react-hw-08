@@ -1,0 +1,20 @@
+.title {
+  margin: 24px auto;
+  font-size: 34px;
+}
+.label {
+  text-align: left;
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+
+.text {
+  text-align: left;
+}
+.span {
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

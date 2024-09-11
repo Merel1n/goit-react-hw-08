@@ -2,7 +2,8 @@ import css from "./ContactForm.module.css";
 import { ErrorMessage, Formik, Form, Field } from "formik";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { addContact } from "../../redux/contactsOps";
+import { addContact } from "../../redux/contacts/operations";
+import { toast, Toaster } from "react-hot-toast";
 
 const phoneRegExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
 const ContactValidationSchema = Yup.object().shape({
@@ -30,49 +31,55 @@ const ContactForm = () => {
       name: values.userName,
       number: values.userNumber,
     };
-    dispatch(addContact(contactObject));
+    dispatch(addContact(contactObject))
+      .unwrap()
+      .then(() => toast.success("Contact added successfully!"))
+      .catch((error) => toast.error(error.message));
     actions.resetForm();
   };
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
-      validationSchema={ContactValidationSchema}
-    >
-      <Form className={css.form}>
-        <label className={css.label}>
-          Name
-          <Field
-            type="text"
-            name="userName"
-            className={css.input}
-            placeholder="Name"
-          />
-          <ErrorMessage
-            className={css.errorText}
-            name="userName"
-            component="span"
-          />
-        </label>
-        <label className={css.label}>
-          Number
-          <Field
-            type="tel"
-            name="userNumber"
-            className={css.input}
-            placeholder="XXX-XXX-XXXX"
-          />
-          <ErrorMessage
-            className={css.errorText}
-            name="userNumber"
-            component="span"
-          />
-        </label>
-        <button type="submit" className={css.button}>
-          Add contact
-        </button>
-      </Form>
-    </Formik>
+    <>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={ContactValidationSchema}
+      >
+        <Form className={css.form}>
+          <label className={css.label}>
+            Name
+            <Field
+              type="text"
+              name="userName"
+              className={css.input}
+              placeholder="Name"
+            />
+            <ErrorMessage
+              className={css.errorText}
+              name="userName"
+              component="span"
+            />
+          </label>
+          <label className={css.label}>
+            Number
+            <Field
+              type="tel"
+              name="userNumber"
+              className={css.input}
+              placeholder="XXX-XXX-XXXX"
+            />
+            <ErrorMessage
+              className={css.errorText}
+              name="userNumber"
+              component="span"
+            />
+          </label>
+          <button type="submit" className={css.button}>
+            Add contact
+          </button>
+        </Form>
+      </Formik>
+      <Toaster position="top-center" reverseOrder={false} />
+    </>
   );
 };
 export default ContactForm;

@@ -3,10 +3,12 @@ import ContactForm from "../../components/ContactForm/ContactForm";
 import ContactList from "../../components/ContactList/ContactList";
 import Loader from "../../components/Loader/Loader";
 import { useEffect } from "react";
-import { fetchContacts } from "../../redux/contactsOps";
-import { selectLoading } from "../../redux/contactsSlice";
+// import { fetchContacts } from "../../redux/contactsOps";
+// import { selectLoading } from "../../redux/contactsSlice";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import css from "./ContactsPage.module.css";
+import { fetchContacts } from "../../redux/contacts/operations";
+import { selectLoading } from "../../redux/contacts/selections";
 const ContactsPage = () => {
   const dispatch = useDispatch();
   useEffect(() => {

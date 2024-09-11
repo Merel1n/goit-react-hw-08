@@ -9,12 +9,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAuthIsRefreshing } from "./redux/auth/selectors";
 import { useEffect } from "react";
 import { apiRefreshUser } from "./redux/auth/operations";
+import { RestrictedRoute } from "./components/RestrictedRoute";
+import { PrivateRoute } from "./components/PrivateRoute";
 
 function App() {
   const dispatch = useDispatch();
   const isRefreshing = useSelector(selectAuthIsRefreshing);
   useEffect(() => {
-    dispatch(apiRefreshUser);
+    dispatch(apiRefreshUser());
   }, [dispatch]);
   if (isRefreshing) return <p>User is refreshing, please wait</p>;
   return (
@@ -25,9 +27,19 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/contacts" element={<ContactsPage />} />
+          <Route
+            path="/login"
+            element={<RestrictedRoute component={<LoginPage />} />}
+          />
+          <Route
+            path="/register"
+            element={<RestrictedRoute component={<RegisterPage />} />}
+          />
+
+          <Route
+            path="/contacts"
+            element={<PrivateRoute component={<ContactsPage />} />}
+          />
         </Routes>
       </main>
       <footer></footer>

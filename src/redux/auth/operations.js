@@ -9,6 +9,10 @@ const setAuthHeders = (token) => {
   instance.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
+const clearAuthHeader = () => {
+  instance.defaults.headers.common.Authorization = "";
+};
+
 export const apiLogin = createAsyncThunk(
   "auth/login",
   async (formData, thunkApi) => {
@@ -45,6 +49,29 @@ export const apiRefreshUser = createAsyncThunk(
       setAuthHeders(token);
       const { data } = await instance.get("users/current");
       return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  },
+  {
+    condition: (_, thunkApi) => {
+      const state = thunkApi.getState();
+      const token = state.auth.token;
+      if (token) return true;
+      return false;
+    },
+  }
+);
+
+export const apiLogout = createAsyncThunk(
+  "auth/logout",
+  async (_, thunkApi) => {
+    try {
+      await instance.post("users/logout");
+
+      clearAuthHeader();
+
+      return;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
