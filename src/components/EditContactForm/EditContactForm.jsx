@@ -6,7 +6,6 @@ import { toast, Toaster } from "react-hot-toast";
 import { selectCurrent } from "../../redux/contacts/selections";
 import { setCurrent } from "../../redux/contacts/slice";
 import { updateContact } from "../../redux/contacts/operations";
-import { current } from "@reduxjs/toolkit";
 
 // const phoneRegExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
 // const ContactValidationSchema = Yup.object().shape({
@@ -21,14 +20,14 @@ import { current } from "@reduxjs/toolkit";
 //     )
 //     .required("Required"),
 // });
-const initialValues = {
-  name: current.name,
-  number: current.number,
-};
+
 const EditContactForm = () => {
   const current = useSelector(selectCurrent);
   const dispatch = useDispatch();
-
+  const initialValues = {
+    name: current.name,
+    number: current.number,
+  };
   const handleSubmit = (values) => {
     dispatch(
       updateContact({
@@ -39,7 +38,6 @@ const EditContactForm = () => {
       .unwrap()
       .then(() => toast.success("Contact added successfully!"))
       .catch((error) => toast.error(error.message));
-    event.target.reset();
   };
 
   return (
@@ -57,7 +55,6 @@ const EditContactForm = () => {
               name="name"
               className={css.input}
               placeholder="Name"
-              defaultValue={current.name}
             />
             <ErrorMessage
               className={css.errorText}
@@ -72,7 +69,6 @@ const EditContactForm = () => {
               name="number"
               className={css.input}
               placeholder="XXX-XXX-XXXX"
-              defaultValue={current.number}
             />
             <ErrorMessage
               className={css.errorText}
